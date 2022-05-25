@@ -30,7 +30,6 @@ status = st.sidebar.radio("Select Source: ", ('Investing.com', 'yahoo Finance','
 
 st.sidebar.title("Pairs")
 select = st.sidebar.selectbox('Select a Pair', pairs, key='1')
-currency = st.sidebar.checkbox('Currency')
 currentfibo = st.sidebar.checkbox('Todays')
 currentfiboweek = st.sidebar.checkbox('Weeks')
 varcurrentfiboweek = st.sidebar.checkbox('Custom Weeks')
@@ -62,7 +61,7 @@ if currentfibo:
 	t=t['Open']
 	todayprice=int(t[-1]*Divide)
 	if takeinput >0:
-		todayprice=takeinput
+		todayprice=int(takeinput*Divide)
 	t=test1['Close']
 	t=t[-11:-1].values
 	print("Today price back date")
@@ -292,7 +291,6 @@ if varcurrentfiboweek:
 	print(dfw)
 	st.dataframe(dfw)
 	st.text('Custom Week Open Price for Calculation is '+str(float(todaypricew)))
-
 
 
 
