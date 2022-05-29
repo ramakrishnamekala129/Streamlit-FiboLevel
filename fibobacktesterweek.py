@@ -23,7 +23,7 @@ def CurrencyDivider(select):
 
 
 
-status = st.sidebar.radio("Select Source: ", ('Investing.com'))
+status = st.sidebar.radio("Select Source: ", ('Investing.com', 'yahoo Finance','FXCM'))
 
 
 
