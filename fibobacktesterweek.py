@@ -23,7 +23,7 @@ def CurrencyDivider(select):
 
 
 
-status = st.sidebar.radio("Select Source: ", ('Investing.com', 'yahoo Finance','FXCM'))
+status = st.sidebar.radio("Select Source: ", ('Investing.com'))
 
 
 
@@ -33,6 +33,7 @@ select = st.sidebar.selectbox('Select a Pair', pairs, key='1')
 currentfibo = st.sidebar.checkbox('Todays')
 currentfiboweek = st.sidebar.checkbox('Weeks')
 varcurrentfiboweek = st.sidebar.checkbox('Custom Weeks')
+varcurrentfibomonth = st.sidebar.checkbox('Custom Months')
 if (status == 'Investing.com'):
 	d = st.date_input("Todays Date",date.today())
 	todate=d-timedelta(days=25)
@@ -292,5 +293,90 @@ if varcurrentfiboweek:
 	st.dataframe(dfw)
 	st.text('Custom Week Open Price for Calculation is '+str(float(todaypricew)))
 
+if varcurrentfibomonth:
+    takeinput = st.number_input(label="Input Custom Month Open Price",step=1.,format="%.2f")
+    takeinput1 = st.number_input(label="Input Custom Month Range Day")
+    st.text('Custom Month Fibo Level')
+    st.text('Table')
+
+    tw=j#pd.DataFrame(j)
+    test1=tw
+    tw=tw.reset_index()
+    tw['Date']=pd.to_datetime(tw['Date'])
+    print("Custom Month price back date")
+    test1=test1.iloc[-11:-1,:]
+    print(test1)
+    #print(t)
+    ktw1=list(tw['Close'])
+    tw=list(tw['Open'])
+    todaypricew=int(tw[-1])
+    tw=ktw1
+    tw=tw[-11:-1]#.values
+    if takeinput > 1:
+        todaypricew=takeinput
+    #t=t*Divide
+    #t=pd.to_numeric(t, downcast='integer')
+    kw=[]
+    for i in tw:
+        kw.append(int(i))
+    tw=kw
+
+
+    avglstw=[]
+    for i in range(1,len(tw)):
+        avglstw.append(np.log(tw[i]/tw[i-1]))
+    lnsqw=[]
+    for i in avglstw:
+        lnsqw.append(i**2)
+
+    avgw=np.mean(avglstw)
+    lnw=np.mean(lnsqw)
+    variancew=lnw-(avgw**2)
+    volatilityw=math.sqrt(variancew)
+    print('volatility'+str(volatilityw))
+    yvolatilityw=volatilityw*100*(math.sqrt(365))
+    print('yearvolatility'+str(yvolatilityw))
+    pricerangew=todaypricew*volatilityw
+    print('pricerange'+str(pricerangew))
+    print('todayprice'+str(todaypricew))
+    pricerangew=((todaypricew*yvolatilityw)/100*(math.sqrt(30)))/math.sqrt(365)
+    if takeinput1 > 1:
+        pricerangew=((todaypricew*yvolatilityw)/100*(math.sqrt(int(takeinput1))))/math.sqrt(365)
+    print('pricerange'+str(pricerangew))
+    D0236Bw=todaypricew+(0.236*pricerangew)
+    D0236Sw=todaypricew-(0.236*pricerangew)
+    D0382Bw=(0.382*pricerangew)+todaypricew
+    D0382Sw=todaypricew-(0.382*pricerangew)
+    D05Bw=todaypricew+(0.5*pricerangew)
+    D05Sw=todaypricew-(0.5*pricerangew)
+    D0618Bw=todaypricew+(0.618*pricerangew)
+    D0618Sw=todaypricew-(0.618*pricerangew)
+    D0786Bw=todaypricew+(0.786*pricerangew)
+    D0786Sw=todaypricew-(0.786*pricerangew)
+    D0888Bw=todaypricew+(0.888*pricerangew)
+    D0888Sw=todaypricew-(0.888*pricerangew)
+    D01Bw=todaypricew+(1*pricerangew)
+    D01Sw=todaypricew-(1*pricerangew)
+    D1236Bw=todaypricew+(1.236*pricerangew)
+    D1236Sw=todaypricew-(1.236*pricerangew)
+    D1272Bw=todaypricew+(1.272*pricerangew)
+    D1272Sw=todaypricew-(1.272*pricerangew)
+    D1618Bw=todaypricew+(1.618*pricerangew)
+    D1618Sw=todaypricew-(1.618*pricerangew)
+    l1w=[int(D0236Bw),int(D0236Sw)]
+    l2w=[int(D0382Bw),int(D0382Sw)]
+    l3w=[int(D05Bw),int(D05Sw)]
+    l4w=[int(D0618Bw),int(D0618Sw)]
+    l5w=[int(D0786Bw),int(D0786Sw)]
+    l6w=[int(D0888Bw),int(D0888Sw)]
+    l7w=[int(D01Bw),int(D01Sw)]
+    l8w=[int(D1236Bw),int(D1236Sw)]
+    l9w=[int(D1272Bw),int(D1272Sw)]
+    l10w=[int(D1618Bw),int(D1618Sw)]
+    lsw=[l1w,l2w,l3w,l4w,l5w,l6w,l7w,l8w,l9w,l10w]
+    dfw=pd.DataFrame(lsw,columns=['Buy','Sell'],index=['0.236','0.382','0.5','0.618','0.786','0.888','1','1.236','1.272','1.618'])
+    print(dfw)
+    st.dataframe(dfw)
+    st.text('Custom Months Open Price for Calculation is '+str(float(todaypricew)))
 
 
