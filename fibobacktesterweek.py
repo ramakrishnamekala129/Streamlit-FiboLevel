@@ -392,16 +392,20 @@ if gann:
     if selectbox == 'Jupiter/Kethu':
         df=pd.read_csv('jupiter_kethu.csv')
         df=df.dropna()
+        df=df.astype(int)
     elif selectbox == 'Mercury/Mars':
         
         df=pd.read_csv('mercury_mars.csv')
         df=df.dropna()
+        df=df.astype(int)
     elif selectbox == 'Rahu/Saturn':
         df=pd.read_csv('rahu_saturn.csv')
         df=df.dropna()
+        df=df.astype(int)
     elif selectbox == 'Moon/Venus':
         df=pd.read_csv('moon_venus.csv')
         df=df.dropna()
+        df=df.astype(int)
     df=df.iloc[:,1:]
     df1=df
     if takeinput > 1:
